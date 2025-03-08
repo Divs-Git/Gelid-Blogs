@@ -96,3 +96,19 @@ export const getMyBlogs = async (req, res) => {
 
   res.status(200).json(myBlogs);
 };
+
+export const updateBlog = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ message: 'Invalid blog id' });
+  }
+
+  const updatedBlog = await Blog.findByIdAndUpdate(id, req.body, { new: true });
+
+  if (!updatedBlog) {
+    return res.status(404).json({ message: 'Blog does not exists' });
+  }
+
+  res.status(200).json(updatedBlog);
+};
