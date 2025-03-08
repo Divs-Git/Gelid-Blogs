@@ -88,3 +88,11 @@ export const getSingleBlog = async (req, res) => {
 
   res.status(200).json(blog);
 };
+
+export const getMyBlogs = async (req, res) => {
+  const createdBy = req.user._id;
+
+  const myBlogs = await Blog.find({ createdBy });
+
+  res.status(200).json(myBlogs);
+};
