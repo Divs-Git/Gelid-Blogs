@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Blog } from './../models/blog.model.js';
 import { v2 as cloudinary } from 'cloudinary';
 
@@ -71,4 +72,19 @@ export const deleteBlog = async (req, res) => {
 export const getAllBlogs = async (req, res) => {
   const allBlogs = await Blog.find();
   res.status(200).json(allBlogs);
+};
+
+export const getSingleBlog = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(404).json({ message: 'Invalid blog id' });
+  }
+
+  const blog = await Blog.findById(id);
+  if (!blog) {
+    return res.status(404).json({ message: 'Blog does not exists' });
+  }
+
+  res.status(200).json(blog);
 };
