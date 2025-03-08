@@ -67,3 +67,8 @@ export const deleteBlog = async (req, res) => {
   await blog.deleteOne();
   res.status(201).json({ message: 'Blog deleted successfully' });
 };
+
+export const getAllBlogs = async (req, res) => {
+  const allBlogs = await Blog.find();
+  res.status(200).json(allBlogs);
+};
