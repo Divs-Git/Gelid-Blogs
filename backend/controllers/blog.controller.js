@@ -55,3 +55,15 @@ export const createBlog = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
+export const deleteBlog = async (req, res) => {
+  const { id } = req.params;
+
+  const blog = await Blog.findById(id);
+  if (!blog) {
+    return res.status(404).json({ message: 'Blog does not exists' });
+  }
+
+  await blog.deleteOne();
+  res.status(201).json({ message: 'Blog deleted successfully' });
+};
